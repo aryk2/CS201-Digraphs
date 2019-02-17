@@ -5,8 +5,10 @@
 int main(int argc, char *argv[]) {
     char * test = argv[2];
     char * key = argv[1];
+    struct digraphs digraph_chart;
+    struct digraphs * result = &digraph_chart;
     if(key[1] == 't')
-        digraphs_text(test);
+        digraphs_text(test, result);
     else if(key[1] == 'p')
         printf("not done yet\n"); 
     return 1;

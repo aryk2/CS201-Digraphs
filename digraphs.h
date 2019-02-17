@@ -38,7 +38,7 @@ struct digraphs {
  * Return a null pointer on error.
  */
 extern struct digraphs *
-digraphs_text(char *filename);
+digraphs_text(char *filename, struct digraphs *);
 
 /* fs.c */
 
