@@ -4,15 +4,19 @@
 
 #ifndef _DIGRAPH_H
 #define _DIGRAPH_H
+#define _DEFAULT_SOURCE
 
 #include <stdint.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include <assert.h>
+
 
 /* Digraph count information. */
 struct digraphs {
     /* Number of alphabetic characters examined. */
     uint64_t nchars;
+    int unique_count;
     /*
      * Digraph frequencies. The left (row) index
      * is the first character in the digraph; the right (column)
@@ -30,6 +34,17 @@ struct digraphs {
     uint64_t counts[52][52];
 };
 
+struct node {
+    char digraph[2];
+    uint64_t count;
+};
+
+//function protoypes for digraphs.c
+int compare(const void * p1, const void * p2);
+int create_array(struct digraphs *, struct node *);
+int sort_array(struct node *, struct node *, int);
+int check_input(char *);
+int get_index(char);
 /* text.c */
 
 /*

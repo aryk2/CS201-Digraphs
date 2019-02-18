@@ -3,8 +3,7 @@
 #include "digraphs.h"
 
 //prototypes of functions for this file
-int count_digraphs(char *, struct digraphs *);
-int check_input(char *);
+int count_digraphs_x(char *, struct digraphs *);
 //end of prototype section
 
 //Function declarations 
@@ -16,8 +15,10 @@ digraphs_text(char *filename, struct digraphs * result) {
         perror("file open error");
         return NULL;
     }
+    int xcount = 0;
     if(!feof(file)) {
         letters[1] = fgetc(file);
+        ++xcount;
     }
     while(!feof(file)) {
         letters[0] = letters[1];  
@@ -29,14 +30,36 @@ digraphs_text(char *filename, struct digraphs * result) {
             letters[1] = letters[0];
             continue;
         }
-        count_digraphs(letters, result);
+        ++xcount;
+        result->unique_count += count_digraphs_x(letters, result);
     }
+    result -> nchars = xcount;
     fclose(file);
-    return NULL; //make this a struct
+    return result; //make this a struct
 }    
 
-int count_digraphs
+//gets passed the struct and an array of the 2 letters that
+//will make up the digraph, add the digraph to the count in 
+//the struct and return 1 if this is the first time this
+//digraph has appeard in this text entry
+int count_digraphs_x
 (char * letters, struct digraphs * result) {
-    result -> counts[letters[0] - 'a'][letters[1] - 'a']++;    
+    int index1 = get_index(letters[0]);
+    int index2 = get_index(letters[1]);
+    result -> counts[index1][index2]++;    
+    if(result->counts[index1][index2] == 1)
+        return 1;
     return 0; 
 }
+
+int get_index(char letter) {
+    if(letter == 'a')
+        return 0;
+    if(letter == 'A')
+        return 26;
+    if(letter > 97)
+        return letter - 'a';
+    else 
+        return (letter - 'A') + 26;
+}
+
